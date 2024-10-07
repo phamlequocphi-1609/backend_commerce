@@ -40,41 +40,40 @@ Route::post('/index', [HomeController::class, 'addCart']);
 Route::group([
     'middleware' => 'member',
 ], function(){
-
-    Route::get('/member/logout', [MemberController::class, 'logout']);
     
-    Route::get('/member/blog', [BlogMemberController::class, 'bloglist']);
-    Route::get('/member/blog/detail/{id}', [BlogMemberController::class, 'blogdetail'])->name('blog.detail');
-    Route::post('/member/blog/detail/{id}', [BlogMemberController::class, 'blogcomment']);
+    Route::prefix('/member')->group(function(){
+        Route::get('/logout', [MemberController::class, 'logout']);
+        Route::get('/blog', [BlogMemberController::class, 'bloglist']);
+        Route::get('/blog/detail/{id}', [BlogMemberController::class, 'blogdetail'])->name('blog.detail');
+        Route::post('/blog/detail/{id}', [BlogMemberController::class, 'blogcomment']);
+        Route::post('/blog/rate', [BlogMemberController::class, 'rate'])->name('rate'); 
+        Route::get('/account/update', [MemberController::class, 'account'])->name('account');
+        Route::post('/account/update', [MemberController::class, 'memberUpdate']);
+        Route::get('/account/my-product',[ProductMemberControlller::class, 'index'])->name('account');
+        Route::get('/account/add-product', [ProductMemberControlller::class, 'getdata'])->name('account');
+        Route::post('/account/add-product', [ProductMemberControlller::class, 'create']);
+        Route::get('/account/edit-product/{id}', [ProductMemberControlller::class, 'getEdit'])->name('productEdit');
+        Route::post('/account/edit-product/{id}', [ProductMemberControlller::class, 'update']);
+        Route::get('/account/delete-product/{id}', [ProductMemberControlller::class, 'delete'])->name('productDelete');
+        Route::get('/product/detail/{id}', [ProductMemberControlller::class, 'detail'])->name('productDetail');
+    });
+   
+    Route::prefix('/product')->group(function(){
+        Route::get('/search', [ProductMemberControlller::class, 'search']);
+        Route::get('/searchAdvanced', [ProductMemberControlller::class, 'searchAdvanced']);
+    });
     
-    Route::post('/member/blog/rate', [BlogMemberController::class, 'rate'])->name('rate');
-    
-    
-    Route::get('/member/account/update', [MemberController::class, 'account'])->name('account');
-    Route::post('/member/account/update', [MemberController::class, 'memberUpdate']);
-    
-    Route::get('/member/account/my-product',[ProductMemberControlller::class, 'index'])->name('account');
-    Route::get('/member/account/add-product', [ProductMemberControlller::class, 'getdata'])->name('account');
-    Route::post('/member/account/add-product', [ProductMemberControlller::class, 'create']);
-    Route::get('/member/account/edit-product/{id}', [ProductMemberControlller::class, 'getEdit'])->name('productEdit');
-    Route::post('/member/account/edit-product/{id}', [ProductMemberControlller::class, 'update']);
-    Route::get('/member/account/delete-product/{id}', [ProductMemberControlller::class, 'delete'])->name('productDelete');
-    Route::get('/member/product/detail/{id}', [ProductMemberControlller::class, 'detail'])->name('productDetail');
-    Route::get('/product/search', [ProductMemberControlller::class, 'search']);
-    Route::get('/product/searchAdvanced', [ProductMemberControlller::class, 'searchAdvanced']);
-    
-    
-    Route::get('/cart', [CartMemberController::class, 'cart'])->name('cart');
-    Route::post('/cart/increase', [CartMemberController::class, 'increase']);
-    Route::post('/cart/remove', [CartMemberController::class, 'remove']);
-    Route::post('/cart/reduce', [CartMemberController::class, 'reduce']);
-    
+    Route::prefix('/cart')->group(function(){
+        Route::get('/', [CartMemberController::class, 'cart'])->name('cart');
+        Route::post('/increase', [CartMemberController::class, 'increase']);
+        Route::post('/remove', [CartMemberController::class, 'remove']);
+        Route::post('/reduce', [CartMemberController::class, 'reduce']);
+    });
     
     Route::get('/checkout', [CheckOutController::class, 'check'])->name('cart');
     Route::get('/checkInformation', [CheckOutController::class, 'information']);
     
     Route::post('/price/selected', [ProductMemberControlller::class, 'priceSelect']);
-    
     
 });
 
@@ -84,11 +83,12 @@ Route::group([
     'middleware'=>'memberNotlogin'
 
 ], function(){
-    Route::get('/member/login', [MemberController::class, 'getDataMember']);
-    Route::post('/member/login', [MemberController::class, 'login']);
-
-    Route::get('/member/register', [MemberController::class, 'getDataRegisterMember']);
-    Route::post('/member/register', [MemberController::class, 'create']);
+    Route::prefix('/member')->group(function(){
+        Route::get('/login', [MemberController::class, 'getDataMember']);
+        Route::post('/login', [MemberController::class, 'login']);
+        Route::get('/register', [MemberController::class, 'getDataRegisterMember']);
+        Route::post('/register', [MemberController::class, 'create']);
+    });
 });
 
 // Admin
