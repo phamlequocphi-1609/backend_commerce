@@ -26,10 +26,7 @@ class BrandController extends Controller
         $data = brand::all();
         return view('admin.brand.list', compact('data'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function getdata()
     {
         return view('admin.brand.add');

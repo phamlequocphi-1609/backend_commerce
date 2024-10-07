@@ -32,7 +32,6 @@ class CategoryController extends Controller
      */
     public function getData()
     {
-
         return view('admin.category.add');
     }
     public function create(CategoryRequest $request)

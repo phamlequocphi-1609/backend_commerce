@@ -14,10 +14,10 @@ class CartMemberController extends Controller
      * Display a listing of the resource.
      *
      */
-//     session()->has('cart): kiểm tra session có khôh
-// session()->get('cart'): lấy session ra
-// session()->push('cart', $array) : đưa mảng vào so sánh
-// session()->put('cart', $getSession) : thay đổi 1 cái trong session
+    //     session()->has('cart): kiểm tra session có khôh
+    // session()->get('cart'): lấy session ra
+    // session()->push('cart', $array) : đưa mảng vào so sánh
+    // session()->put('cart', $getSession) : thay đổi 1 cái trong session
     
     public function cart(){
         return view('frontend.cart.cart');

@@ -37,14 +37,11 @@ use Whoops\Run;
 Route::get('/index', [HomeController::class, 'index']); 
 Route::post('/index', [HomeController::class, 'addCart']);
 
-
 Route::group([
     'middleware' => 'member',
 ], function(){
 
-   
     Route::get('/member/logout', [MemberController::class, 'logout']);
-    
     
     Route::get('/member/blog', [BlogMemberController::class, 'bloglist']);
     Route::get('/member/blog/detail/{id}', [BlogMemberController::class, 'blogdetail'])->name('blog.detail');
@@ -81,8 +78,11 @@ Route::group([
     
 });
 
+
+
 Route::group([
     'middleware'=>'memberNotlogin'
+
 ], function(){
     Route::get('/member/login', [MemberController::class, 'getDataMember']);
     Route::post('/member/login', [MemberController::class, 'login']);
@@ -104,34 +104,41 @@ Route::group([
     'middleware'=> ['admin']
 ], function(){
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    
+    Route::prefix('/user')->group(function () {
+        Route::get('/profile', [UsersController::class, 'userProfile']);
+        Route::post('/profile', [UsersController::class, 'updateUser']);
+        Route::get('/add', [UsersController::class, 'getData']);
+        Route::post('/add', [UsersController::class,'create']);
+    });
 
-    Route::get('/user/profile', [UsersController::class,'userProfile']);
-    Route::post('/user/profile', [UsersController::class, 'updateUser']);
-    Route::get('/user/add', [UsersController::class, 'getData']);
-    Route::post('/user/add', [UsersController::class,'create']);
+    Route::prefix('/country')->group(function(){
+        Route::get('/list', [CountryController::class, 'index']);
+        Route::get('/add', [CountryController::class, 'getdata']);
+        Route::post('/add', [CountryController::class, 'create']);
+        Route::get('/delete/{id}', [CountryController::class, 'delete'])->name('country.delete');
+    });
+ 
+    Route::prefix('/blog')->group(function(){
+        Route::get('/list', [BlogController::class, 'index']);
+        Route::get('/add', [BlogController::class, 'getdata']);
+        Route::post('/add', [BlogController::class, 'create']);
+        Route::get('/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
+        Route::get('/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
+        Route::post('/edit/{id}', [BlogController::class, 'update']);
+    });
     
+    Route::prefix('/category')->group(function(){
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::get('/add', [CategoryController::class, 'getData']);
+        Route::post('/add', [CategoryController::class, 'create']);
+        Route::get('/delete/{id}', [CategoryController::class, 'delete'])->name('categoryDelete');
+    });
     
-    Route::get('/country/list',[CountryController::class, 'index']);
-    Route::get('/country/add', [CountryController::class, 'getdata']);
-    Route::post('/country/add', [CountryController::class, 'create']);
-    Route::get('/country/delete/{id}', [CountryController::class, 'delete'])->name('country.delete');
-    
-    
-    Route::get('/blog/list', [BlogController::class, 'index']);
-    Route::get('/blog/add', [BlogController::class, 'getdata']);
-    Route::post('/blog/add', [BlogController::class, 'create']);
-    Route::get('/blog/list', [BlogController::class, 'index']);
-    Route::get('/blog/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
-    Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
-    Route::post('/blog/edit/{id}', [BlogController::class, 'update']);
-    
-    Route::get('/category', [CategoryController::class, 'index']);
-    Route::get('/category/add', [CategoryController::class, 'getData']);
-    Route::post('/category/add', [CategoryController::class, 'create']);
-    Route::get('/category/delete/{id}', [CategoryController::class, 'delete'])->name('categoryDelete');
-    
-    Route::get('/brand', [BrandController::class, 'index']);
-    Route::get('/brand/add', [BrandController::class, 'getdata']);
-    Route::post('/brand/add', [BrandController::class, 'create']);
-    Route::get('/brand/delete/{id}', [CategoryController::class, 'delete'])->name('brandDelete');
+    Route::prefix('/brand')->group(function(){
+        Route::get('/add', [BrandController::class, 'index']);
+        Route::post('/add', [BrandController::class, 'getdata']);
+        Route::get('/add', [BrandController::class, 'create']);
+        Route::get('/delete/{id}', [BrandController::class, 'delete'])->name('brandDelete');
+    });
 });

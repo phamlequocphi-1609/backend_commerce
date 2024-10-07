@@ -15,7 +15,7 @@ class CheckOutController extends Controller
     /**
      * Display a listing of the resource.
      */
-       public function check(){
+    public function check(){
         $user = Auth::user();
         return view('frontend.checkOut.checkout', compact('user'));
     }

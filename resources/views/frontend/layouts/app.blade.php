@@ -87,7 +87,7 @@
                     var getID = $(this).attr('data-id');
                     $('#comment-level').val(getID);
                 });
-
+            
 
 
                 $.ajaxSetup({
@@ -130,11 +130,11 @@
                             },
                             success: function(data){
                                 console.log(data.success);
-
                             }
                         })
                     }
                 });
+
                 var check = $(".rate-np").text()
                 if(check == 1){
                     $('.star_1').addClass('ratings_over');
@@ -147,6 +147,7 @@
                 }else if(check == 5){
                     $('.star_1, .star_2, .star_3, .star_4, .star_5').addClass('ratings_over');
                 }
+
                 var getSaleValue = localStorage.getItem("SelectSaleValue");
                     if (getSaleValue) {
                         var getValue = JSON.parse(getSaleValue);
@@ -178,7 +179,6 @@
 
                     $("button.add-to-cart").click(function(){
                         var getId = $(this).attr('id');
-                        // alert(getId);
                         $.ajax({
                             type: "POST",
                             url: "{{url('index')}}",

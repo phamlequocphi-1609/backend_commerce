@@ -41,7 +41,7 @@ class UsersController extends Controller
         $file = $request->avatar;
         if(!empty($file)){
             $data['avatar'] = $file->getClientOriginalName();
-            $file->move(public_path('upload/user'), $data['avatar']);
+            $file->move(public_path(    'upload/user'), $data['avatar']);
         }
         if(User::create($data)){
             return redirect()->back()->with('success', 'Dữ liệu user được thêm vào thành công');

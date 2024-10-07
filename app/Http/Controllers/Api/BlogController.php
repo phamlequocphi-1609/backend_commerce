@@ -119,7 +119,6 @@ class BlogController extends Controller
     //     //     }
     //     // }
     // }
-
     public function rateBlog(RateBlogRequest $request){
         $data = $request->all();
         if(!empty($data['id_user'])){

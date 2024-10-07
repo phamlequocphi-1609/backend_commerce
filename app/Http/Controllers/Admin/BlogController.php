@@ -25,9 +25,7 @@ class BlogController extends Controller
         $data = blog::all();
         return view('admin.blog.list', compact('data'));
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function getdata(){
         return view('admin.blog.add');
     }
@@ -71,4 +69,3 @@ class BlogController extends Controller
 
     }
 }
-
